@@ -1,58 +1,47 @@
 import Link from "next/link";
-import { Heart, ShoppingBag, Star } from "lucide-react";
+import { Heart, Star } from "lucide-react";
 import { formatPrice, type Product } from "@/lib/store";
 
 export function ProductCard({ product }: { product: Product }) {
   const discount = product.salePrice ? Math.round(((product.price - product.salePrice) / product.price) * 100) : 0;
 
   return (
-    <article className="group overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-      <div className="relative overflow-hidden">
-        <Link href={`/product/${product.slug}`}>
-          <img src={product.image} alt={product.name} className="h-80 w-full object-cover transition duration-700 group-hover:scale-105" />
+    <article className="group">
+      <div className="relative aspect-[4/5] overflow-hidden bg-[#e8e1d6]">
+        <Link href={`/product/${product.slug}`} className="block h-full">
+          <img src={product.image} alt={product.name} className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-[1.035]" />
         </Link>
-        <button className="absolute right-4 top-4 rounded-full bg-white/90 p-2 text-stone-700 shadow-sm transition hover:bg-white">
+        <button className="absolute right-3 top-3 rounded-full bg-[#fbf9f4]/90 p-2.5 text-[#171816] shadow-sm backdrop-blur transition hover:bg-white" aria-label={`Save ${product.name}`}>
           <Heart className="h-4 w-4" />
         </button>
         {product.salePrice ? (
-          <span className="absolute left-4 top-4 inline-flex rounded-full bg-rose-500 px-2.5 py-1 text-xs font-medium text-white">-{discount}%</span>
+          <span className="absolute left-3 top-3 rounded-full bg-[#171816] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-white">-{discount}%</span>
         ) : null}
         {product.newArrival ? (
-          <span className="absolute left-4 top-12 inline-flex rounded-full bg-stone-900 px-2.5 py-1 text-xs font-medium text-white">New</span>
+          <span className="absolute left-3 top-12 rounded-full bg-[#b88a4a] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-white">New</span>
         ) : null}
+        <Link href={`/product/${product.slug}`} className="absolute bottom-3 left-3 right-3 translate-y-3 rounded-full bg-[#fbf9f4] px-4 py-3 text-center text-[11px] font-semibold uppercase tracking-[0.12em] opacity-0 shadow-lg transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+          View product
+        </Link>
       </div>
 
-      <div className="space-y-4 p-5">
-        <div className="flex items-center justify-between gap-3">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-stone-500">{product.brand}</p>
-          <div className="flex items-center gap-1 text-amber-500">
-            <Star className="h-4 w-4 fill-current" />
-            <span className="text-xs font-medium text-stone-700">{product.rating}</span>
+      <div className="pt-5">
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8a857c]">{product.brand}</p>
+          <div className="flex items-center gap-1 text-[#b88a4a]">
+            <Star className="h-3.5 w-3.5 fill-current" />
+            <span className="text-[11px] font-semibold text-[#5c5a54]">{product.rating}</span>
           </div>
         </div>
-
-        <Link href={`/product/${product.slug}`} className="block text-lg font-semibold text-stone-900 hover:text-stone-600">
-          {product.name}
-        </Link>
-
-        <div className="flex items-center gap-3">
-          <span className="text-xl font-bold text-stone-900">{formatPrice(product.salePrice ?? product.price)}</span>
-          {product.salePrice ? <span className="text-sm text-stone-400 line-through">{formatPrice(product.price)}</span> : null}
+        <Link href={`/product/${product.slug}`} className="font-display text-2xl font-semibold leading-tight transition hover:text-[#9b6f32]">{product.name}</Link>
+        <div className="mt-3 flex items-center gap-2">
+          <span className="text-sm font-semibold">{formatPrice(product.salePrice ?? product.price)}</span>
+          {product.salePrice ? <span className="text-xs text-black/35 line-through">{formatPrice(product.price)}</span> : null}
         </div>
-
-        <div className="flex items-center gap-2 text-xs text-stone-500">
+        <div className="mt-4 flex flex-wrap gap-1.5">
           {product.colors.slice(0, 4).map((color) => (
-            <span key={color} className="rounded-full border border-stone-200 px-2 py-1">{color}</span>
+            <span key={color} className="rounded-full border border-black/10 px-2.5 py-1 text-[9px] uppercase tracking-wider text-black/50">{color}</span>
           ))}
-        </div>
-
-        <div className="flex items-center gap-3">
-          <Link href={`/product/${product.slug}`} className="flex-1 rounded-full bg-stone-900 px-4 py-2.5 text-center text-sm font-medium text-white transition hover:bg-stone-700">
-            View Product
-          </Link>
-          <button className="rounded-full border border-stone-200 p-3 text-stone-700 transition hover:border-stone-900 hover:text-stone-900">
-            <ShoppingBag className="h-4 w-4" />
-          </button>
         </div>
       </div>
     </article>

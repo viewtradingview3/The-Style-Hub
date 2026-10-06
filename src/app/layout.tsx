@@ -1,18 +1,28 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Cormorant_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const display = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-display",
+});
+
+const sans = Manrope({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   title: "Velora | Premium Clothing Store",
-  description: "Premium clothing and essentials for men, women and kids.",
+  description: "Modern, elevated clothing essentials for every wardrobe.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${display.variable} ${sans.variable}`}>{children}</body>
     </html>
   );
 }
